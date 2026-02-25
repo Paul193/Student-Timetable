@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Timetable</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="header-content">
+        <h1 class="logo">My Timetable</h1>
+        <p class="subtitle" id="headerSubtitle">Spring Term 2025</p>
+        <button type="button" class="change-course-btn" id="changeCourseBtn" style="display: none;">Change course</button>
+        <div class="day-tabs" role="tablist" id="dayTabs">
+          <span class="day-tabs-mobile-hint" id="dayTabsMobileHint">Swipe timetable to see all days</span>
+          <button type="button" class="day-tab active" data-day="all" aria-selected="true">All Week</button>
+          <button type="button" class="day-tab" data-day="mon">Monday</button>
+          <button type="button" class="day-tab" data-day="tue">Tuesday</button>
+          <button type="button" class="day-tab" data-day="wed">Wednesday</button>
+          <button type="button" class="day-tab" data-day="thu">Thursday</button>
+          <button type="button" class="day-tab" data-day="fri">Friday</button>
+          <button type="button" class="day-tab" data-day="sat">Saturday</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="course-select" id="courseSelect">
+        <h2 class="course-select-title">Select your course</h2>
+        <p class="course-select-hint">Choose a course to view its timetable</p>
+        <div class="course-search-wrap">
+          <input type="search" class="course-search" id="courseSearch" placeholder="Search by course code or name..." autocomplete="off" aria-label="Search courses" />
+        </div>
+        <div class="course-list-wrap">
+          <div class="course-list" id="courseList">
+            <button type="button" class="course-card" data-course="IENDCY336">IENDCY336<span class="course-card-desc">Industrial Engineering · Year 3</span></button>
+            <button type="button" class="course-card" data-course="CSIT401">CSIT401<span class="course-card-desc">Computer Science · Year 4</span></button>
+            <button type="button" class="course-card" data-course="ENG202">ENG202<span class="course-card-desc">Engineering Fundamentals · Year 2</span></button>
+            <button type="button" class="course-card" data-course="BUSA501">BUSA501<span class="course-card-desc">Business Administration · Year 5</span></button>
+            <button type="button" class="course-card" data-course="MATH301">MATH301<span class="course-card-desc">Advanced Mathematics · Year 3</span></button>
+            <button type="button" class="course-card" data-course="PHYS204">PHYS204<span class="course-card-desc">Physics · Year 2</span></button>
+            <button type="button" class="course-card" data-course="CHEM101">CHEM101<span class="course-card-desc">Chemistry · Year 1</span></button>
+            <button type="button" class="course-card" data-course="ECON350">ECON350<span class="course-card-desc">Economics · Year 3</span></button>
+            <button type="button" class="course-card" data-course="DESN210">DESN210<span class="course-card-desc">Design · Year 2</span></button>
+            <button type="button" class="course-card" data-course="LAW501">LAW501<span class="course-card-desc">Law · Year 5</span></button>
+          </div>
+          <p class="course-list-empty" id="courseListEmpty" style="display: none;">No courses match your search.</p>
+        </div>
+      </section>
+
+      <div class="timetable-view" id="timetableView" style="display: none;">
+      <div class="timetable-wrapper">
+        <div class="display-options" aria-label="Display options">
+          <span class="display-options-label">Show in blocks:</span>
+          <label class="option-check"><input type="checkbox" id="opt-time" /> Start & end time</label>
+          <label class="option-check"><input type="checkbox" id="opt-venue" /> Venue</label>
+          <label class="option-check"><input type="checkbox" id="opt-floor" /> Floor</label>
+          <label class="option-check"><input type="checkbox" id="opt-type" /> Practical / Theory</label>
+        </div>
+        <div class="timetable" id="timetable">
+          <!-- Time column -->
+          <div class="time-column">
+            <div class="time-cell header-cell"></div>
+            <div class="time-cell">08:00</div>
+            <div class="time-cell">09:00</div>
+            <div class="time-cell">10:00</div>
+            <div class="time-cell">11:00</div>
+            <div class="time-cell">12:00</div>
+            <div class="time-cell">13:00</div>
+            <div class="time-cell">14:00</div>
+            <div class="time-cell">15:00</div>
+            <div class="time-cell">16:00</div>
+          </div>
+
+          <!-- Day columns (populated by JS for flexibility, or we can keep static for dummy) -->
+          <div class="day-column" data-day="mon">
+            <div class="day-header">Mon</div>
+            <div class="slot" data-start="8" data-span="1" data-subject="math" data-lecturer="chen" data-venue="Room 101 · Mr. Chen" data-floor="1" data-type="theory"><span class="slot-title">Mathematics</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+            <div class="slot" data-start="9" data-span="1" data-subject="physics" data-lecturer="okonkwo" data-venue="Lab A · Dr. Okonkwo" data-floor="0" data-type="practical"><span class="slot-title">Physics</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+            <div class="slot break" data-start="10" data-span="1">Break</div>
+            <div class="slot" data-start="11" data-span="2" data-subject="english" data-lecturer="rivera" data-venue="Room 204 · Ms. Rivera" data-floor="2" data-type="theory"><span class="slot-title">English Literature</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+            <div class="slot break" data-start="13" data-span="1">Lunch</div>
+            <div class="slot" data-start="14" data-span="1" data-subject="history" data-lecturer="sato" data-venue="Room 112 · Mr. Sato" data-floor="1" data-type="theory"><span class="slot-title">History</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+            <div class="slot" data-start="15" data-span="1" data-subject="pe" data-lecturer="williams" data-venue="Sports Hall" data-floor="0" data-type="practical"><span class="slot-title">P.E.</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+          </div>
+
+          <div class="day-column" data-day="tue">
+            <div class="day-header">Tue</div>
+            <div class="slot" data-start="8" data-span="2" data-subject="chemistry" data-lecturer="patel" data-venue="Lab B · Dr. Patel" data-floor="0" data-type="practical"><span class="slot-title">Chemistry</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+            <div class="slot break" data-start="10" data-span="1">Break</div>
+            <div class="slot" data-start="11" data-span="1" data-subject="math" data-lecturer="chen" data-venue="Room 101 · Mr. Chen" data-floor="1" data-type="theory"><span class="slot-title">Mathematics</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+            <div class="slot" data-start="12" data-span="1" data-subject="computing" data-lecturer="kim" data-venue="IT Lab · Ms. Kim" data-floor="1" data-type="practical"><span class="slot-title">Computing</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+            <div class="slot break" data-start="13" data-span="1">Lunch</div>
+            <div class="slot" data-start="14" data-span="2" data-subject="art" data-lecturer="torres" data-venue="Studio · Mr. Torres" data-floor="2" data-type="practical"><span class="slot-title">Art & Design</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+          </div>
+
+          <div class="day-column" data-day="wed">
+            <div class="day-header">Wed</div>
+            <div class="slot" data-start="8" data-span="1" data-subject="english" data-lecturer="rivera" data-venue="Room 204 · Ms. Rivera" data-floor="2" data-type="theory"><span class="slot-title">English</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+            <div class="slot" data-start="9" data-span="1" data-subject="math" data-lecturer="chen" data-venue="Room 101 · Mr. Chen" data-floor="1" data-type="theory"><span class="slot-title">Mathematics</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+            <div class="slot break" data-start="10" data-span="1">Break</div>
+            <div class="slot" data-start="11" data-span="1" data-subject="biology" data-lecturer="okonkwo" data-venue="Lab A · Dr. Okonkwo" data-floor="0" data-type="practical"><span class="slot-title">Biology</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+            <div class="slot" data-start="12" data-span="1" data-subject="geography" data-lecturer="novak" data-venue="Room 305 · Ms. Novak" data-floor="3" data-type="theory"><span class="slot-title">Geography</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+            <div class="slot break" data-start="13" data-span="1">Lunch</div>
+            <div class="slot" data-start="14" data-span="1" data-subject="history" data-lecturer="sato" data-venue="Room 112 · Mr. Sato" data-floor="1" data-type="theory"><span class="slot-title">History</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+            <div class="slot" data-start="15" data-span="1" data-subject="tutorial" data-lecturer="sato" data-venue="Room 201" data-floor="2" data-type="theory"><span class="slot-title">Tutorial</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+          </div>
+
+          <div class="day-column" data-day="thu">
+            <div class="day-header">Thu</div>
+            <div class="slot" data-start="8" data-span="1" data-subject="physics" data-lecturer="okonkwo" data-venue="Lab A · Dr. Okonkwo" data-floor="0" data-type="practical"><span class="slot-title">Physics</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+            <div class="slot" data-start="9" data-span="2" data-subject="computing" data-lecturer="kim" data-venue="IT Lab · Ms. Kim" data-floor="1" data-type="practical"><span class="slot-title">Computing</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+            <div class="slot break" data-start="11" data-span="1">Break</div>
+            <div class="slot" data-start="12" data-span="1" data-subject="english" data-lecturer="rivera" data-venue="Room 204 · Ms. Rivera" data-floor="2" data-type="theory"><span class="slot-title">English</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+            <div class="slot break" data-start="13" data-span="1">Lunch</div>
+            <div class="slot" data-start="14" data-span="1" data-subject="math" data-lecturer="chen" data-venue="Room 101 · Mr. Chen" data-floor="1" data-type="theory"><span class="slot-title">Mathematics</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+            <div class="slot" data-start="15" data-span="1" data-subject="pe" data-lecturer="williams" data-venue="Sports Hall" data-floor="0" data-type="practical"><span class="slot-title">P.E.</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+          </div>
+
+          <div class="day-column" data-day="fri">
+            <div class="day-header">Fri</div>
+            <div class="slot" data-start="8" data-span="1" data-subject="chemistry" data-lecturer="patel" data-venue="Lab B · Dr. Patel" data-floor="0" data-type="practical"><span class="slot-title">Chemistry</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+            <div class="slot" data-start="9" data-span="1" data-subject="biology" data-lecturer="okonkwo" data-venue="Lab A · Dr. Okonkwo" data-floor="0" data-type="practical"><span class="slot-title">Biology</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+            <div class="slot break" data-start="10" data-span="1">Break</div>
+            <div class="slot" data-start="11" data-span="1" data-subject="geography" data-lecturer="novak" data-venue="Room 305 · Ms. Novak" data-floor="3" data-type="theory"><span class="slot-title">Geography</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+            <div class="slot" data-start="12" data-span="1" data-subject="art" data-lecturer="torres" data-venue="Studio · Mr. Torres" data-floor="2" data-type="practical"><span class="slot-title">Art & Design</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+            <div class="slot break" data-start="13" data-span="1">Lunch</div>
+            <div class="slot" data-start="14" data-span="2" data-subject="english" data-lecturer="rivera" data-venue="Room 204 · Ms. Rivera" data-floor="2" data-type="theory"><span class="slot-title">English Literature</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+          </div>
+
+          <div class="day-column" data-day="sat">
+            <div class="day-header">Sat</div>
+            <div class="slot break" data-start="8" data-span="1">No classes</div>
+            <div class="slot" data-start="9" data-span="2" data-subject="computing" data-lecturer="kim" data-venue="IT Lab · Ms. Kim" data-floor="1" data-type="practical"><span class="slot-title">Computing (optional)</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+            <div class="slot break" data-start="11" data-span="1">Break</div>
+            <div class="slot" data-start="12" data-span="1" data-subject="art" data-lecturer="torres" data-venue="Studio · Mr. Torres" data-floor="2" data-type="practical"><span class="slot-title">Art Workshop</span><span class="slot-time meta"></span><span class="slot-venue meta"></span><span class="slot-floor meta"></span><span class="slot-type meta"></span></div>
+            <div class="slot break" data-start="13" data-span="1">Lunch</div>
+            <div class="slot break" data-start="14" data-span="2">Free</div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>View your schedule at a glance · Click a subject for lecturer details</p>
+    </footer>
+  </div>
+
+  <div class="lecturer-overlay" id="lecturerOverlay" aria-hidden="true">
+    <div class="lecturer-backdrop" id="lecturerBackdrop"></div>
+    <div class="lecturer-card" id="lecturerCard" role="dialog" aria-labelledby="lecturerCardTitle">
+      <button type="button" class="lecturer-close" id="lecturerClose" aria-label="Close">×</button>
+      <div class="lecturer-card-inner">
+        <img class="lecturer-photo" id="lecturerPhoto" src="" alt="" />
+        <h2 class="lecturer-name" id="lecturerCardTitle"></h2>
+        <p class="lecturer-title" id="lecturerTitle"></p>
+        <dl class="lecturer-details">
+          <dt>Office</dt>
+          <dd id="lecturerOffice"></dd>
+          <dt>Consultation hours</dt>
+          <dd id="lecturerHours"></dd>
+          <dt>Email</dt>
+          <dd><a class="lecturer-email" id="lecturerEmail" href=""></a></dd>
+        </dl>
+        <div class="lecturer-actions">
+          <button type="button" class="btn-venue btn-class" id="btnGoToClass">Go to class</button>
+          <button type="button" class="btn-venue btn-office" id="btnGoToOffice">Go to office</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="directions-overlay" id="directionsOverlay" aria-hidden="true">
+    <div class="directions-backdrop" id="directionsBackdrop"></div>
+    <div class="directions-card" id="directionsCard" role="dialog" aria-labelledby="directionsTitle">
+      <button type="button" class="directions-close" id="directionsClose" aria-label="Close">×</button>
+      <h2 class="directions-title" id="directionsTitle">How to get there</h2>
+      <p class="directions-hint">Tap a picture to see the instruction</p>
+      <div class="directions-steps" id="directionsSteps">
+        <div class="direction-step" data-step="1">
+          <button type="button" class="direction-step-trigger" aria-expanded="false" aria-controls="dirInst1" id="dirTrigger1">
+            <img id="dirImg1" src="" alt="Step 1: Campus map" />
+            <span class="step-num">1</span>
+          </button>
+          <p class="direction-step-instruction" id="dirInst1" role="region" aria-live="polite"></p>
+        </div>
+        <div class="direction-step" data-step="2">
+          <button type="button" class="direction-step-trigger" aria-expanded="false" aria-controls="dirInst2" id="dirTrigger2">
+            <img id="dirImg2" src="" alt="Step 2: Building exterior" />
+            <span class="step-num">2</span>
+          </button>
+          <p class="direction-step-instruction" id="dirInst2" role="region" aria-live="polite"></p>
+        </div>
+        <div class="direction-step" data-step="3">
+          <button type="button" class="direction-step-trigger" aria-expanded="false" aria-controls="dirInst3" id="dirTrigger3">
+            <img id="dirImg3" src="" alt="Step 3: Floor" />
+            <span class="step-num">3</span>
+          </button>
+          <p class="direction-step-instruction" id="dirInst3" role="region" aria-live="polite"></p>
+        </div>
+        <div class="direction-step" data-step="4">
+          <button type="button" class="direction-step-trigger" aria-expanded="false" aria-controls="dirInst4" id="dirTrigger4">
+            <img id="dirImg4" src="" alt="Step 4: Room door" />
+            <span class="step-num">4</span>
+          </button>
+          <p class="direction-step-instruction" id="dirInst4" role="region" aria-live="polite"></p>
+        </div>
+        <div class="direction-step" data-step="5">
+          <button type="button" class="direction-step-trigger" aria-expanded="false" aria-controls="dirInst5" id="dirTrigger5">
+            <img id="dirImg5" src="" alt="Step 5: Inside venue" />
+            <span class="step-num">5</span>
+          </button>
+          <p class="direction-step-instruction" id="dirInst5" role="region" aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
+    <div class="lightbox-content">
+      <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
+      <img class="lightbox-img" id="lightboxImg" src="" alt="" />
+      <p class="lightbox-instructions" id="lightboxInstructions"></p>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
